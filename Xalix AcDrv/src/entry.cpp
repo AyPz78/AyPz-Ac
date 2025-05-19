@@ -141,8 +141,15 @@ NTSTATUS io_controller(PDEVICE_OBJECT device_obj, PIRP irp) {
     {
 		if (size == sizeof(MODULE)) {
 			PMODULE req = (PMODULE)(irp->AssociatedIrp.SystemBuffer);
-			status = module_instance->GetSystemModuleBase(req);
-			bytes = sizeof(MODULE);
+			uint64_t module_address = 0;
+			status = module_instance->GetSystemModuleBase(req, &module_address);
+            if (NT_SUCCESS(status)) {
+                RtlCopyMemory(req->address, &module_address, sizeof(module_address));
+                bytes = sizeof(MODULE);
+            }
+            else {
+                bytes = 0;
+            }
 		}
 		else
 		{

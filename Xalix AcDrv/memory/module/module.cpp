@@ -153,7 +153,7 @@ auto get_system_information(const SYSTEM_INFORMATION_CLASS information_class) ->
 
     return info;
 }
-unsigned long long module::GetSystemModuleBase(PMODULE request)
+unsigned long long module::GetSystemModuleBase(PMODULE request, uint64_t* module_address)
 {
     unsigned long info = 0;
     NTSTATUS status = ZwQuerySystemInformation(SystemModuleInformation, 0, info, &info);
@@ -175,6 +175,7 @@ unsigned long long module::GetSystemModuleBase(PMODULE request)
             {
                 if (!strcmp((CHAR*)current_module[i].FullPathName, request->module_name))
                     module_base = current_module[i].ImageBase;
+
             }
         }
         else
@@ -184,6 +185,10 @@ unsigned long long module::GetSystemModuleBase(PMODULE request)
     }
     if (modules)
         ExFreePoolWithTag(modules, 'tran');
+
+	if (module_base)
+		*module_address = (unsigned long long)module_base;
+
 
     return (unsigned long long)module_base;
 }

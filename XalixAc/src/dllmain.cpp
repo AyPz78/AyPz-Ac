@@ -15,7 +15,7 @@ void MainThread()
 	uintptr_t test_read = driver.rpm<uintptr_t>(base);
 	printf("[+] Read Base Address: %p\n", test_read);
 
-	uintptr_t system_base = mem::GetSystemModuleBase("win32kbase.sys");
+	uintptr_t system_base = mem::GetSystemModuleBase("win32k.sys");
 	printf("[+] System Base Address: %p\n", system_base);
 
 	mem::protect_process(mem::process_id);//this function will avoid HANDLE with PROCESS_ALL_ACCESS

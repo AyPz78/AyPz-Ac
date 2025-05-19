@@ -34,7 +34,7 @@ class module
     NTSTATUS GetPeb(ppeb request, PVOID* peb_address);
     void* GetProcessModuleBase(PEPROCESS process, UNICODE_STRING module_name);
     NTSTATUS FindBaseAddress(pba x);
-    unsigned long long GetSystemModuleBase(PMODULE request);
+    unsigned long long GetSystemModuleBase(PMODULE request, uint64_t* module_address);
     unsigned long long Internal_GetSystemModuleBase(const char* request);
     SIZE_T Internal_GetSystemModuleSize(const char* module_name);
 
