@@ -1,5 +1,6 @@
 #include "crc.h"
-
+//for the moment just .text section
+// You can have false flag sometimes because of mutation encryption etc etc
 bool crc::check_text_integrity(const wchar_t* moduleName)
 {
     HMODULE hModule = GetModuleHandleW(moduleName);
@@ -17,10 +18,9 @@ bool crc::check_text_integrity(const wchar_t* moduleName)
             std::uint8_t* sectionStart = base + section->VirtualAddress;
             DWORD sectionSize = section->Misc.VirtualSize;
 
-            std::vector<std::uint8_t> currentData(sectionSize);//simple copy 
+            std::vector<std::uint8_t> currentData(sectionSize);
             memcpy(currentData.data(), sectionStart, sectionSize);
 
-            // Charger la version originale depuis le disque
             wchar_t fullPath[MAX_PATH];
             GetModuleFileNameW(hModule, fullPath, MAX_PATH);
             HANDLE hFile = CreateFileW(fullPath, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
@@ -109,6 +109,6 @@ bool crc::is_function_hooked(uintptr_t modulebase, uintptr_t function)
         }
     }
 
-    return true; // En dehors de .text => probablement hooké
+    return true;
 }
 
