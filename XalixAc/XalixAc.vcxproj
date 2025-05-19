@@ -24,7 +24,6 @@
     <ProjectGuid>{9203ff9e-2859-4960-8d7d-5806deddeeb3}</ProjectGuid>
     <RootNamespace>XalixAc</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>AyPz Ac</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
