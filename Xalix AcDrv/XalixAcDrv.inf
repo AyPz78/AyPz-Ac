@@ -1,0 +1,62 @@
+;
+; XalixAcDrv.inf
+;
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = System ; TODO: specify appropriate Class
+ClassGuid   = {4d36e97d-e325-11ce-bfc1-08002be10318} ; TODO: specify appropriate ClassGuid
+Provider    = %ManufacturerName%
+CatalogFile = XalixAcDrv.cat
+DriverVer   = ; 05/18/2025,1.0.0.0
+PnpLockdown = 1
+
+[DestinationDirs]
+DefaultDestDir = 13
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+XalixAcDrv.sys = 1,,
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName% = Standard,NT$ARCH$.10.0...16299 ; %13% support introduced in build 16299
+
+[Standard.NT$ARCH$.10.0...16299]
+%XalixAcDrv.DeviceDesc% = XalixAcDrv_Device, Root\XalixAcDrv ; TODO: edit hw-id
+
+[XalixAcDrv_Device.NT]
+CopyFiles = File_Copy
+
+[File_Copy]
+XalixAcDrv.sys
+
+;-------------- Service installation
+[XalixAcDrv_Device.NT.Services]
+AddService = XalixAcDrv,%SPSVCINST_ASSOCSERVICE%, XalixAcDrv_Service_Inst
+
+; -------------- XalixAcDrv driver install sections
+[XalixAcDrv_Service_Inst]
+DisplayName    = %XalixAcDrv.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %13%\XalixAcDrv.sys
+
+[XalixAcDrv_Device.NT.Wdf]
+KmdfService = XalixAcDrv, XalixAcDrv_wdfsect
+
+[XalixAcDrv_wdfsect]
+KmdfLibraryVersion = $KMDFVERSION$
+
+[Strings]
+SPSVCINST_ASSOCSERVICE = 0x00000002
+ManufacturerName = "<Your manufacturer name>" ;TODO: Replace with your manufacturer name
+DiskName = "XalixAcDrv Installation Disk"
+XalixAcDrv.DeviceDesc = "XalixAcDrv Device"
+XalixAcDrv.SVCDESC = "XalixAcDrv Service"
